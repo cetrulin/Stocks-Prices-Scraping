@@ -205,34 +205,15 @@ if __name__ == "__main__":
     for site in ["google_finance","alpha_vantage"]:
         try_download("SPY",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"S&P500/spy_eft","SPY",0)
 
-    # 4 Download all SPY holders (it should be the same than SPX as SPY tries to replicate the behaviour of the index)
-    from_symbol='' #DAL, LUK 
-    # But check/try just in case one of the lists is incomplete
-    for site in ["google_finance","alpha_vantage"]:
-        download_list_of_prices(root_path=PATH+"/raw",list_file="SPX_list.csv",symbols_subpath="S&P500", \
-                                period=60,days=20,exchange='USD',site=site,debug=False,from_symbol=from_symbol)
-
-    # 5 Download EURUSD
+    # 4 Download EURUSD
     for site in ["google_finance","alpha_vantage"]:
         try_download("EURUSD",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"EURUSD","EURUSD",0)
 
-    # Extra: Downloading Bitcoin-USD
+    # Extra: Download Bitcoin-USD
     for site in ["google_finance","alpha_vantage"]:
         try_download("BTCUSD",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"BITCOIN","BTCUSD",0)
 
-    # Extra: Downloading IBEX (not available in google finance)
+    # Extra: Download NASDAQ
     for site in ["google_finance","alpha_vantage"]:
-        try_download("IB",60,20,"EUR",site,True,RAW_DATA_PATH+site+"/"+"IBEX35","IB",0)
-
-    # Extra: Downloading NASDAQ
-    for site in ["google_finance","alpha_vantage"]:
-        try_download("IXIC",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"NASDAQ/index","NASDAQ",0)
-        # NASDAQ EFTs to track volumes (?): QQQ looks like the only complete one at 1 min level
-        try_download("QTEC",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"NASDAQ/qtec_eft","QTEC",0)
+        # NASDAQ EFTs to track volumes
         try_download("QQQ",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"NASDAQ/qqq_eft","QQQ",0)
-        try_download("IBB",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"NASDAQ/ibb_eft","IBB",0)
-        try_download("ONEQ",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"NASDAQ/oneq_eft","ONEQ",0)
-
-    # Extra: Downloading S (for the craic :) )
-    for site in ["google_finance","alpha_vantage"]:
-        try_download("S",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"S","S",0)
