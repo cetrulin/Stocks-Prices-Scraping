@@ -18,10 +18,14 @@ Retrieve intraday stock data from Alpha Vantage API.
 
 #Alpha Vantage API to download 15 days of minute data (only if required)
 from alpha_vantage.timeseries import TimeSeries
+from alpha_vantage.cryptocurrencies import CryptoCurrencies
+
 apikey='YOUR_ALPHA_VANTAGE_API_KEY'
 
 # Get pandas object with the intraday data and another with the call's metadata
+# Get the same for crypto
 ts = TimeSeries(key=apikey, output_format='pandas')
+cc = CryptoCurrencies(key=apikey, output_format='pandas')
 
 
 """
@@ -97,9 +101,11 @@ def download_single_price_from(symbol,period=60,days=20,exchange='USD',site="goo
     
     # Download index price
     if site=="google_finance":
-        df=get_google_finance_intraday(symbol,period,days,exchange,debug) 
+        df = get_google_finance_intraday(symbol,period,days,exchange,debug) 
     elif site=="alpha_vantage":        
         df, meta_data = ts.get_intraday(symbol, interval='1min', outputsize='full')
+    elif site=="avantage_crypto":
+        df, meta_data = cc.get_digital_currency_intraday(symbol, exchange)   
         
     # Save index prices
     output_file=check_or_create_path(path)+"/"+name+"_"+str(datetime.date.today())+".csv.gz"
@@ -217,3 +223,15 @@ if __name__ == "__main__":
     for site in ["google_finance","alpha_vantage"]:
         # NASDAQ EFTs to track volumes
         try_download("QQQ",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"NASDAQ/qqq_eft","QQQ",0)
+
+    # Extra: Downloading crypto
+    for site in ["avantage_crypto"]:
+        try_download("BTC",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"BITCOIN/","BTCUSD",0)
+        try_download("ETH",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"ETHEREUM","ETHUSD",0)
+        try_download("XRP",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"RIPPLE","XRPUSD",0)
+        try_download("LTC",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"LITECOIN","LTCUSD",0)
+        try_download("IOT",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"IOTA","IOTUSD",0)
+        try_download("XMR",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"MONERO","XMRUSD",0)
+        try_download("DASH",60,20,"USD",site,True,RAW_DATA_PATH+site+"/"+"DASH","DASHUSD",0)
+
+
